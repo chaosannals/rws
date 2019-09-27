@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function makedeps() {
+    local here=`pwd`
+    cd deps
+    make lua
+    rm -rf hiredis
+    git clone https://github.com/redis/hiredis.git
+    make hiredis
+    cd $here
+}
+
+function compile() {
+    local here=`pwd`
+    local action="make PREFIX=$here install"
+    eval $action
+}
+
+makedeps
+compile
