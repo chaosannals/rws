@@ -16,5 +16,12 @@ function compile() {
     eval $action
 }
 
+function install() {
+    local here=`pwd`
+    local path=`find /usr -name msys-2.0.dll`
+    cp $path "$here/bin/msys-2.0.dll"
+}
+
 makedeps
 compile
+install
