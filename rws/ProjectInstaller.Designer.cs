@@ -43,6 +43,7 @@
             this.serviceInstaller.Description = "Redis Windows 服务";
             this.serviceInstaller.DisplayName = "RedisWindowsService";
             this.serviceInstaller.ServiceName = "RedisService";
+            this.serviceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 

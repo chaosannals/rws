@@ -2,12 +2,14 @@
 using System.ServiceProcess;
 using System.IO;
 using System.Diagnostics;
+using System.Timers;
 
 namespace rws
 {
     public partial class RedisService : ServiceBase
     {
         private Process process;
+        private Timer timer;
 
         public RedisService()
         {
@@ -24,6 +26,10 @@ namespace rws
             process.StartInfo.RedirectStandardError = true;
             process.EnableRaisingEvents = true;
             process.OutputDataReceived += new DataReceivedEventHandler(Output);
+            timer = new Timer();
+            timer.Elapsed += new ElapsedEventHandler(Ensure);
+            timer.Interval = 2000;
+            timer.Enabled = true;
         }
 
         protected override void OnStart(string[] args)
@@ -38,6 +44,15 @@ namespace rws
             process.Kill();
             process.Close();
             WriteLog("Redis Stop");
+        }
+
+        private void Ensure(object sender, ElapsedEventArgs args)
+        {
+            if (process.HasExited)
+            {
+                WriteLog("Redis Restart");
+                process.Start();
+            }
         }
 
         private void Output(object sender, DataReceivedEventArgs args)
