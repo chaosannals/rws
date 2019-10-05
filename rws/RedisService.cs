@@ -18,7 +18,7 @@ namespace rws
             process = new Process();
             process.StartInfo.FileName = Path.Combine(here, "redis-server.exe");
             process.StartInfo.WorkingDirectory = here;
-            process.StartInfo.Arguments = "";
+            process.StartInfo.Arguments = Configure(here);
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -61,6 +61,17 @@ namespace rws
             {
                 WriteLog(args.Data);
             }
+        }
+
+        private string Configure(string here)
+        {
+            string path = Path.Combine(here, "redis.conf");
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                return path;
+            }
+            return "";
         }
 
         private void WriteLog(string msg)
