@@ -51,11 +51,11 @@ namespace rwsmgr
 
         private static void UnistallService(string path)
         {
-            using (AssemblyInstaller installer = new AssemblyInstaller())
+            using(TransactedInstaller transacted = new TransactedInstaller())
             {
-                installer.UseNewContext = true;
-                installer.Path = path;
-                installer.Uninstall(null);
+                AssemblyInstaller installer = new AssemblyInstaller(path, new string[] { });
+                transacted.Installers.Add(installer);
+                transacted.Uninstall(null);
             }
         }
 
