@@ -3,6 +3,8 @@ using System.ServiceProcess;
 using System.IO;
 using System.Diagnostics;
 using System.Timers;
+using System.Text;
+using System.Net.Sockets;
 
 namespace rws
 {
@@ -29,7 +31,6 @@ namespace rws
             timer = new Timer();
             timer.Elapsed += new ElapsedEventHandler(Ensure);
             timer.Interval = 2000;
-            timer.Enabled = true;
         }
 
         protected override void OnStart(string[] args)
@@ -37,10 +38,13 @@ namespace rws
             WriteLog("Redis Start");
             process.Start();
             process.BeginOutputReadLine();
+            timer.Start();
         }
 
         protected override void OnStop()
         {
+            timer.Stop();
+            WriteLog(Save());
             process.Kill();
             process.Close();
             WriteLog("Redis Stop");
@@ -55,6 +59,11 @@ namespace rws
             }
         }
 
+        /// <summary>
+        /// 写入日志。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void Output(object sender, DataReceivedEventArgs args)
         {
             if (!string.IsNullOrEmpty(args.Data))
@@ -63,6 +72,11 @@ namespace rws
             }
         }
 
+        /// <summary>
+        /// 配置。
+        /// </summary>
+        /// <param name="here"></param>
+        /// <returns></returns>
         private string Configure(string here)
         {
             string path = Path.Combine(here, "redis.conf");
@@ -74,6 +88,10 @@ namespace rws
             return "";
         }
 
+        /// <summary>
+        /// 日志写入。
+        /// </summary>
+        /// <param name="msg"></param>
         private void WriteLog(string msg)
         {
             string here = AppDomain.CurrentDomain.BaseDirectory;
@@ -88,6 +106,25 @@ namespace rws
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
                     writer.WriteLine(DateTime.Now.ToString() + "   " + msg);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Redis 命令落盘保存。
+        /// </summary>
+        /// <returns></returns>
+        private string Save()
+        {
+            using (TcpClient client = new TcpClient("127.0.0.1", 6379))
+            {
+                using (NetworkStream stream = client.GetStream())
+                {
+                    byte[] saveCommand = Encoding.UTF8.GetBytes("SAVE\r\n");
+                    stream.Write(saveCommand, 0, saveCommand.Length);
+                    byte[] buffer = new byte[1024];
+                    int c = stream.Read(buffer, 0, buffer.Length);
+                    return Encoding.UTF8.GetString(buffer, 0, c);
                 }
             }
         }

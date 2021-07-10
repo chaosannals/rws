@@ -85,6 +85,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -101,6 +109,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -178,9 +202,9 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.7.2"
+                "FrameworkVersion" = "8:.NETFramework,Version=v2.0"
                 "AllowLaterVersions" = "11:FALSE"
-                "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=863262"
+                "InstallUrl" = "8:"
                 }
             }
         }
@@ -383,7 +407,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:rws"
         "ProductCode" = "8:{8B36E94C-2531-4F55-9D9C-D7F149149DB1}"
-        "PackageCode" = "8:{D2FE0FF2-8AFC-427E-8690-3BBD112A6F21}"
+        "PackageCode" = "8:{0CC80737-8DB2-4BD6-B828-C29C810AB1CA}"
         "UpgradeCode" = "8:{6F4B2478-9BCB-412C-891C-5E9588C1F646}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -904,7 +928,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_451CB9C3B4E34C2C9B5569D7DFB7A993"
             {
-            "SourcePath" = "8:..\\rws\\obj\\Debug\\rws.exe"
+            "SourcePath" = "8:..\\rws\\obj\\Release\\rws.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_24FBF9E832C74592B7353F6BD140A1D8"
