@@ -41,7 +41,7 @@
             // serviceInstaller
             // 
             this.serviceInstaller.Description = "Redis Windows 服务";
-            this.serviceInstaller.DisplayName = "RedisWindowsService";
+            this.serviceInstaller.DisplayName = "Redis Windows Service";
             this.serviceInstaller.ServiceName = "RedisService";
             this.serviceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             this.serviceInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller_AfterInstall);
