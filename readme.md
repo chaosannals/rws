@@ -1,5 +1,11 @@
 # [Redis Windows Service](https://github.com/chaosannals/rws)
 
+## 使用
+
+在 [GitHub Releases](https://github.com/chaosannals/rws/releases) 找到最新版本的 msi 文件，下载并安装。
+
+安装完成之后就可以看到服务里多了个 Redis Windows Service ，可以关闭和启动 Redis 功能。
+
 ## 编译过程
 
 Redis 官网下载 Redis 源码 redis-6.2.2.tar.gz
