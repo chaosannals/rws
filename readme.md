@@ -40,3 +40,8 @@ cd redis-6.2.2
 # 编译
 make PREFIX=/d/redis/dist install
 ```
+
+
+## 奇怪的 bug
+
+注：在后面的版本里，编译的 redis 路径必须带有 dist 不然就会报错。不知道是不是 MSYS2 的什么问题。

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ServiceProcess;
 using System.IO;
-using System.Diagnostics;
+using System.ServiceProcess;
 using System.Timers;
-using System.Text;
-using System.Net.Sockets;
 
 namespace rws
 {
@@ -16,31 +13,48 @@ namespace rws
         public RedisService()
         {
             InitializeComponent();
-            process = new RedisProcess(AppDomain.CurrentDomain.BaseDirectory);
+            string rp = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dist");
+            process = new RedisProcess(rp);
             timer = new Timer();
             timer.Elapsed += (sender, args) =>
             {
-                if (process.IsStop())
+                lock (process)
                 {
-                    Logger.Log("Redis Restart");
-                    process.Start();
+                    if (process.IsStop())
+                    {
+                        Logger.Log("Redis Restart");
+                        process.Start();
+                    }
                 }
             };
-            timer.Interval = 2000;
+            timer.Interval = 5000;
         }
 
+        /// <summary>
+        /// 开始进程和常驻。
+        /// </summary>
+        /// <param name="args"></param>
         protected override void OnStart(string[] args)
         {
-            Logger.Log("Redis Start");
-            process.Start();
-            timer.Start();
+            lock(process)
+            {
+                Logger.Log("Redis Start");
+                process.Start();
+                timer.Start();
+            }
         }
 
+        /// <summary>
+        /// 停止重试和进程。
+        /// </summary>
         protected override void OnStop()
         {
-            timer.Stop();
-            process.Stop();
-            Logger.Log("Redis Stop");
+            lock(process)
+            {
+                timer.Stop();
+                process.Stop();
+                Logger.Log("Redis Stop");
+            }
         }
     }
 }
